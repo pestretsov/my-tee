@@ -1,0 +1,12 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Basic Java/Kotlin + Gradle template
+# Gradle
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
