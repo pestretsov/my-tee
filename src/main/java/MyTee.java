@@ -41,14 +41,12 @@ public class MyTee {
                         namedStream.getValue().write(bytes, 0, bytesRead);
                         namedStream.getValue().flush();
                     } catch (IOException e) {
-                        System.err.println(namedStream.getKey() + WRITE_ERR_MSG);
-                        exitCode = ERROR;
+                        reportError(namedStream.getKey() + WRITE_ERR_MSG);
                     }
                 }
             }
         } catch (IOException e) {
-            System.err.println(READ_ERR_MSG);
-            exitCode = ERROR;
+            reportError(READ_ERR_MSG);
         }
     }
 
@@ -57,8 +55,7 @@ public class MyTee {
             try {
                 namedStream.getValue().close();
             } catch  (IOException e) {
-                System.err.println(namedStream.getKey() + CLOSE_ERR_MSG);
-                exitCode = ERROR;
+                reportError(namedStream.getKey() + CLOSE_ERR_MSG);
             }
         }
     }
@@ -70,11 +67,15 @@ public class MyTee {
                 OutputStream fileStream = new BufferedOutputStream(new FileOutputStream(file, args.append));
                 streamsMap.put(file.getName(), fileStream);
             } catch (FileNotFoundException e) {
-                System.err.println(file.getName() + OPEN_ERR_MSG);
-                exitCode = ERROR;
+                reportError(file.getName() + OPEN_ERR_MSG);
             }
         }
 
         return streamsMap;
+    }
+
+    private void reportError(String msg) {
+        System.err.println(msg);
+        exitCode = ERROR;
     }
 }
