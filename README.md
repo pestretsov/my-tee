@@ -4,7 +4,7 @@
 `java -jar MyTee-1.0.jar [-a] [-f file...]`
 ### Arguments:
 * `-a | --append` – Appends the output to the end of file instead of writing over it
-* `-f | --files`  – One or more files that will receive the output
+* `-f | --files [file]`  – One or more files that will receive the output
 ### Example:
 `ls -l | java -jar MyTee-1.0.jar -a -f file1.txt | wc -l`
 
