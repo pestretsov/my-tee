@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyTee {
+    public static final int ERROR = 1;
+
     private static final String READ_ERR_MSG  = "Couldn't read from System.in";
     private static final String WRITE_ERR_MSG = ": Operation not permitted";
     private static final String OPEN_ERR_MSG  = ": Couldn't open file";
@@ -13,7 +15,8 @@ public class MyTee {
 
     private int exitCode = 0;
 
-    public void writeTee(InputStream inputStream, MyTeeArguments args) {
+    public void writeTee(MyTeeArguments args) {
+        InputStream inputStream = new BufferedInputStream(System.in);
         Map<String, OutputStream> namedStreamsMap = getStreamsMapFromArguments(args);
         namedStreamsMap.put(SYSTEM_OUT, new BufferedOutputStream(System.out));
 
@@ -39,13 +42,13 @@ public class MyTee {
                         namedStream.getValue().flush();
                     } catch (IOException e) {
                         System.err.println(namedStream.getKey() + WRITE_ERR_MSG);
-                        exitCode = 1;
+                        exitCode = ERROR;
                     }
                 }
             }
         } catch (IOException e) {
             System.err.println(READ_ERR_MSG);
-            exitCode = 1;
+            exitCode = ERROR;
         }
     }
 
@@ -55,7 +58,7 @@ public class MyTee {
                 namedStream.getValue().close();
             } catch  (IOException e) {
                 System.err.println(namedStream.getKey() + CLOSE_ERR_MSG);
-                exitCode = 1;
+                exitCode = ERROR;
             }
         }
     }
@@ -68,7 +71,7 @@ public class MyTee {
                 streamsMap.put(file.getName(), fileStream);
             } catch (FileNotFoundException e) {
                 System.err.println(file.getName() + OPEN_ERR_MSG);
-                exitCode = 1;
+                exitCode = ERROR;
             }
         }
 

@@ -11,11 +11,13 @@ class Application {
                     .build()
                     .parse(args);
         } catch (ParameterException e) {
-            System.exit(1);
+            System.err.println(e.getMessage());
+            e.usage();
+            System.exit(MyTee.ERROR);
         }
 
         MyTee myTee = new MyTee();
-        myTee.writeTee(System.in, arguments);
+        myTee.writeTee(arguments);
 
         System.exit(myTee.getExitCode());
     }
